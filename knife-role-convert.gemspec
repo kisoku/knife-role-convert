@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = s.summary
   s.author = "Mathieu Sauve-Frankel"
   s.email = "msf@kisoku.net"
-  s.homepage = "http://www.opscode.com"
+  s.homepage = "http://github.com/kisoku/knife-role-convert"
 
   s.add_dependency "mixlib-cli", ">= 1.2.2"
   s.add_dependency 'chef'

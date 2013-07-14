@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = true
   s.extra_rdoc_files = ["README.rdoc", "LICENSE"]
-  s.summary = "Knife plugin for converting roles to role cookbooks"
+  s.summary = "knife plugin for converting roles to recipes"
   s.description = s.summary
   s.author = "Mathieu Sauve-Frankel"
   s.email = "msf@kisoku.net"

@@ -1,0 +1,23 @@
+== Knife Role Convert
+
+= DESCRIPTION:
+
+knife-role-convert helps convert existing roles into recipes to be placed
+into role cookbooks.
+
+= INSTALLATION:
+This plugin can be installed as a Ruby Gem.
+
+    gem install knife-role-convert
+
+You can also copy the source repository and install it using +rake install+.
+
+= USAGE:
+
+   knife role convert ROLE -c COOKBOOK -r RECIPE
+
+knife role convert take a single role and spits an equivalent recipe to
+stdout. The -c and -r options allow you to specify the intended name of
+the cookbook and recipe you wish the generated code to be saved as. In
+this release of knife-role-convert this currently only modifies the
+header of the generated recipe.

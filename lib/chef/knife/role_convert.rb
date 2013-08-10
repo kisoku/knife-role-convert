@@ -41,11 +41,8 @@ class Chef
           ui.error("You must supply the name of the role you wish to convert")
           exit 1
         end
-
         role = @name_args[0]
-
         converter = Chef::RoleConverter.new(role, config)
-        converter.convert
         puts converter.generate_recipe
       end
     end

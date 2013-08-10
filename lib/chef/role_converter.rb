@@ -39,7 +39,7 @@ class Chef
       @dependencies = []
     end
 
-    def convert
+    def convert_role
       convert_attributes(role.default_attributes, "default")
       convert_attributes(role.override_attributes, "override")
       convert_runlist
@@ -48,16 +48,15 @@ class Chef
     def convert_attributes(attrs, type, parents=[])
       # XXX this whole bit stinks, redo it later
       attrs.each do |attribute, value|
+        # detect hashes and recursively descend to the bottommost level of nesting
         if value.is_a? Hash
-          parents << attribute
-          convert_attributes(value, type, parents)
+          # make a copy of the parent path and add our current location before recurring
+          new_parents = parents.dup
+          new_parents << attribute
+          convert_attributes(value, type, new_parents)
         else
-          if parents.empty?
-            attr_path = "['#{attribute}']"
-          else
-            attr_path = parents.map {|a| "['#{a}']" }.join() + "['#{attribute}']"
-          end
-          attributes[type] << "#{attr_path} = #{value.pretty_inspect}"
+          attr_path = parents.map {|a| "['#{a}']" }.join() + "['#{attribute}']"
+          attributes[type].push("node.#{type}#{attr_path} = #{value.pretty_inspect}")
         end
       end
     end
@@ -69,16 +68,17 @@ class Chef
           unless dependencies.member? cookbook
             dependencies << cookbook
           end
-          run_list << "include_recipe '#{entry.name}'\n"
+          run_list.push("include_recipe '#{entry.name}'\n")
         elsif entry.role?
           # XXX process recursively ?
-          run_list << "# XXX detected role in run_list: #{entry.name}\n"
-          run_list << "# include_recipe 'role_cookbook::#{entry.name}\n'"
+          run_list.push("# XXX detected role in run_list: #{entry.name}\n")
+          run_list.push("# include_recipe 'role_cookbook::#{entry.name}'\n")
         end
       end
     end
 
     def generate_recipe
+      convert_role
       template = IO.read(Chef::RoleConverter::RECIPE_TEMPLATE).chomp
       eruby = Erubis::Eruby.new(template)
       context = {

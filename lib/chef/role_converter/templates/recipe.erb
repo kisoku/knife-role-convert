@@ -10,14 +10,14 @@
 <% unless @default_attributes.empty? -%>
 # default attributes
 <% @default_attributes.each do |line| -%>
-node.default<%= line -%>
+<%= line -%>
 <% end -%>
 
 <% end -%>
 <% unless @override_attributes.empty? -%>
 # override attributes
 <% @override_attributes.each do |line| -%>
-node.override<%= line -%>
+<%= line -%>
 <% end -%>
 
 <% end -%>

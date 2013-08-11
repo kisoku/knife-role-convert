@@ -26,7 +26,7 @@ class Chef
     attr_reader :role, :cookbook, :recipe
     attr_accessor :attributes, :dependencies, :run_list
 
-    def initialize(role, config={})
+    def initialize(role, config = {})
       @role = Chef::Role.from_disk(role)
       @config = config
       @recipe = config[:recipe] || @role.name
@@ -55,7 +55,7 @@ class Chef
           new_parents << attribute
           convert_attributes(value, type, new_parents)
         else
-          attr_path = parents.map {|a| "['#{a}']" }.join() + "['#{attribute}']"
+          attr_path = parents.map { |a| "['#{a}']" }.join() + "['#{attribute}']"
           attributes[type].push("node.#{type}#{attr_path} = #{value.pretty_inspect}")
         end
       end

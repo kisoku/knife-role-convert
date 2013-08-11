@@ -32,9 +32,13 @@ class Chef
 
       it "process nested attributes" do
         simple_role.convert_attributes(simple_role.role.override_attributes, "override")
-        require 'pry'
-        binding.pry
-        # simple_role.attributes['override']
+        simple_role.attributes['override'].should eq [
+          "node.override['foo']['unicorn']['collect_tears'] = true\n",
+          "node.override['foo']['unicorn']['nested']['should_not_inspect_the_contents'] = [{:lambda=>\"lambda\"}, {:lambda=>\"mu\"}]\n",
+          "node.override['bar'] = 1\n",
+          "node.override['baz'] = 2.2\n",
+          "node.override['quux'] = [\"unos\", \"dos\", \"tres\"]\n"
+        ]
       end
     end
   end
